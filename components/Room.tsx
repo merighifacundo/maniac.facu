@@ -10,6 +10,7 @@ type Props = {
   objects: RoomObject[];
   doorOpen: boolean;
   showKey: boolean;
+  lightsOn: boolean;
   message: string;
   charX: number;
   charDirection: "left" | "right";
@@ -29,6 +30,7 @@ export default function Room({
   objects,
   doorOpen,
   showKey,
+  lightsOn,
   message,
   charX,
   charDirection,
@@ -74,7 +76,7 @@ export default function Room({
         }}
       >
         {roomId === "kitchen" && <KitchenScene doorOpen={doorOpen} showKey={showKey} />}
-        {roomId === "lab" && <LabScene />}
+        {roomId === "lab" && <LabScene lightsOn={lightsOn} />}
 
         {/* character */}
         <Character x={charX} y={FOOT_Y} direction={charDirection} walkFrame={walkFrame} />

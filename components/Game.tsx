@@ -49,6 +49,7 @@ export default function Game() {
   });
   const [message, setMessage] = useState<string>("");
   const [doorOpen, setDoorOpen] = useState(false);
+  const [lightsOn, setLightsOn] = useState(true);
   const [transitioning, setTransitioning] = useState(false);
 
   const [charX, setCharX] = useState(160);
@@ -209,8 +210,11 @@ export default function Game() {
       setMessage(`You walk to the ${obj.name}.`);
     } else if (v === "Use" && obj.id === "key") {
       setMessage("Use the key on what?");
-    } else if (v === "Use" && obj.id === "switch") {
-      setMessage("You flip the switch. The lights flicker ominously.");
+    } else if ((v === "Use" || v === "Push" || v === "Pull") && obj.id === "switch") {
+      setLightsOn((on) => {
+        setMessage(on ? "You flip the switch. The lab plunges into darkness." : "You flip the switch back. Light returns.");
+        return !on;
+      });
     } else if (v === "Close" && obj.id === LOCKED_DOOR_ID) {
       if (doorOpen) {
         setDoorOpen(false);
@@ -246,6 +250,7 @@ export default function Game() {
         objects={visibleObjects}
         doorOpen={doorOpen}
         showKey={!removed.kitchen.has("key")}
+        lightsOn={lightsOn}
         message={message}
         charX={charX}
         charDirection={direction}

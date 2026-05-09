@@ -1,6 +1,6 @@
 "use client";
 
-export default function LabScene() {
+export default function LabScene({ lightsOn = true }: { lightsOn?: boolean }) {
   return (
     <>
       {/* back wall — cold gray */}
@@ -142,6 +142,33 @@ export default function LabScene() {
       <rect x={206} y={89} width={1} height={2} fill="#000" />
       <rect x={208} y={89} width={1} height={2} fill="#000" />
       <rect x={210} y={89} width={1} height={2} fill="#000" />
+
+      {/* darkness overlay when the danger switch cuts the lights */}
+      {!lightsOn && (
+        <>
+          <rect x={0} y={0} width={320} height={160} fill="#000" opacity={0.88} pointerEvents="none" />
+
+          {/* re-draw jar so it stays visible against the darkness */}
+          <rect x={144} y={88} width={24} height={40} fill="#001a00" pointerEvents="none" />
+          <rect x={145} y={89} width={22} height={38} fill="var(--ega-green)" opacity={0.55} pointerEvents="none" />
+          <rect x={144} y={88} width={24} height={40} fill="none" stroke="#aaaaaa" strokeWidth={1} pointerEvents="none" />
+
+          {/* glowing, blinking brain */}
+          <g pointerEvents="none">
+            <animate attributeName="opacity" values="1;0.35;1" dur="1.2s" repeatCount="indefinite" />
+            {/* halo */}
+            <rect x={140} y={96} width={32} height={24} fill="var(--ega-lmagenta)" opacity={0.18} />
+            <rect x={144} y={100} width={24} height={16} fill="var(--ega-lmagenta)" opacity={0.28} />
+            {/* blob */}
+            <rect x={150} y={102} width={12} height={2} fill="var(--ega-lmagenta)" />
+            <rect x={148} y={104} width={16} height={8} fill="var(--ega-lmagenta)" />
+            <rect x={150} y={112} width={12} height={2} fill="var(--ega-lmagenta)" />
+            <rect x={150} y={106} width={12} height={1} fill="var(--ega-magenta)" />
+            <rect x={152} y={109} width={8} height={1} fill="var(--ega-magenta)" />
+            <rect x={155} y={104} width={1} height={6} fill="var(--ega-magenta)" />
+          </g>
+        </>
+      )}
     </>
   );
 }
